@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <style type="text/css">
+            .progress {
+            background-color: #DC3545;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            }
+        </style>
+        <title>Twitter Event Detection</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;padding: 20px;">Twitter Event Detection</h1>
+        <div class="container">
+            {% for event in rows %}
+            {% set pos_per = (event["positive"]/(event["positive"]+event["negative"])) %}
+            <div class="card" style="margin: 1em;margin-bottom: 3em;">
+                {% set c_id = event["c_id"] | int %}
+                <div class="card-header">
+                    <b>Cluster {{ event["id"] }}</b>
+                </div>
+                <div class="card-body">
+                    <p>{{ total_tweets }}</p>
+                    <div class="card" style="margin-bottom: 0.5em;margin-top: 0.5em;padding: 0.5em;">
+                        <h6 style="border-bottom: 1px solid black;">--Top 2 tweets in cluster--</h6>
+                        <h6 style="margin: 7px;">{{ event["tweet1"] }}</h6>
+                        <h6 style="margin: 7px;">{{ event["tweet2"] }}</h6>
+                        <hr>
+                        <div class="container" style="margin: 10px">
+                            <div class="row">
+                                <div class="col">
+                                    <h6 style="border-bottom: 1px solid black;">Entities</h6>
+                                    {% if event["org"]|length > 0 %}
+                                    {% set organisations = event["org"].split(',') %}
+                                    <div>
+                                        <p style="display:inline-block;padding-right: 5px;">Organisations - </p>
+                                        {% for organisation in organisations %}
+                                        <p style='display:inline-block;background-color:blue;color:white;border-radius:2px;padding-left: 0.2%;padding-right: 0.2%;font-size: small;'>{{ organisation }}</p>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    {% if event["per"]|length > 0 %}
+                                    {% set persons = event["per"].split(',') %}
+                                    <div>
+                                        <p style="display:inline-block;padding-right: 5px;">Persons - </p>
+                                        {% for person in persons %}
+                                        <p style='display:inline-block;background-color:red;color:white;border-radius:2px;padding-left: 0.2%;padding-right: 0.2%;font-size: small;'>{{ person }}</p>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    {% if event["loc"]|length > 0 %}
+                                    {% set locations = event["loc"].split(',') %}
+                                    <div>
+                                        <p style="display:inline-block;padding-right: 5px;">Locations - </p>
+                                        {% for location in locations %}
+                                        <p style='display:inline-block;background-color:green;color:white;border-radius:2px;padding-left: 0.2%;padding-right: 0.2%;font-size: small;'>{{ location }}</p>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                    {% if event["oth"]|length > 0 %}
+                                    {% set others = event["oth"].split(',') %}
+                                    <div>
+                                        <p style="display:inline-block;padding-right: 5px;">Other Tags - </p>
+                                        {% for other in others %}
+                                        <p style='display:inline-block;background-color:yellow;color:black;border-radius:2px;padding-left: 0.2%;padding-right: 0.2%;font-size: small;'>{{ other }}</p>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col">
+                                    <div style="display: flex;justify-content: space-between;">
+                                        <p>{{ (pos_per*100)|round(1) }}%</p>
+                                        <p>{{ (100 - ((pos_per*100)|round(1)))|round(1) }}%</p>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ pos_per*100 }}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="float: right;">
+                                <a href="{{ url_for('tweets',cluster_id=c_id) }}"><button type="button" class="btn btn-primary btn-sm">View Tweets ></button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </body>
+</html>

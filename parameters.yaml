@@ -1,0 +1,25 @@
+dataset_collection:
+  tweet_ids_path: "labelled_tweet_ids.tsv"
+  output: "input/event2012.tsv"
+  app_key: None
+  app_secret: None
+  oauth_token: None
+  oauth_token_secret: None
+
+event_detection:
+  model: "wc_w2v_kmeans" # Name of the Vectorization Model - "wc_w2v_hierarchical", "wc_w2v_kmeans", "wc_glove_hierarchical", "wc_glove_kmeans"
+  save_matrix : False # save feature matrix
+  load_saved_matrix: True # load previously computed feature matrix
+  save_results: True # save results in a .csv file
+  dataset : "input/event2012.tsv"
+  output: "output/event_detection_output.tsv"
+  batch_size: 8
+  threshold:
+    - 0.30
+    - 0.35
+    - 0.40
+    - 0.45
+    - 0.50
+
+ui:
+  database_path: "output/analysis_results.db"

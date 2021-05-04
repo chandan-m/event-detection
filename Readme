@@ -1,0 +1,20 @@
+Requirements:
+  Python 3.7.10
+  Libraries mentioned in setup.py
+  Unix OS
+  Twitter API credentials (needed for data collection step)
+
+Steps for Execution:
+    0. Setup:
+        - Run - "pip install ."
+    1. Data Collection: (Can be skipped as data has been collected and stored)
+        - Obtain Twitter API credentials
+        - Paste the API keys in parameters.yaml
+        - Run - "python dataset_collection.py"
+    2. Event Detection Phase:
+        - Run - "python event_detection.py"
+    3. Event Analysis Phase:
+        - Run - "python event_analysis.py"
+    4. Start UI server
+        - Run - "python run_ui.py"
+        - Then open "http://127.0.0.1:5000/v2" in the browser.

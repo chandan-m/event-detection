@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Twitter Event Detection</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+<body>
+	<h1 style="text-align: center;padding: 20px;">Twitter Event Detection</h1>
+	<div class="container">
+		<h3>Tweets in Cluster</h3>
+		<table class="table">
+			<thead>
+			    <tr>
+			      <th scope="col">Rank</th>
+			      <th scope="col">Tweet Text</th>
+			    </tr>
+		   </thead>
+		   <tbody>
+		   		{% for row in tweets %}
+		   		<tr>
+		   			<th scope="row">{{ loop.index }}</th>
+					<td>{{ row.tweet }}</td>
+				</tr>
+				{% endfor %}
+		   </tbody>
+		</table>
+	</div>
+</body>
+</html>
